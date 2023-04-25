@@ -36,14 +36,12 @@ Piece piece_to_num(char piece) {
 // Compiler specific functions, taken from Stockfish https://github.com/official-stockfish/Stockfish
 #if defined(__GNUC__) // GCC, Clang, ICC
 
-Square lsb(BITBOARD bitboard)
-{
+Square lsb(BITBOARD bitboard) {
     assert(bitboard);
     return static_cast<Square>(__builtin_ctzll(bitboard));
 }
 
-Square msb(BITBOARD bitboard)
-{
+Square msb(BITBOARD bitboard) {
     assert(bitboard);
     return static_cast<Square>(63 ^ __builtin_clzll(bitboard));
 }
@@ -108,8 +106,7 @@ Square msb(U64 b)
 
 #endif
 
-int popcount(BITBOARD bitboard)
-{
+int popcount(BITBOARD bitboard) {
 #if defined(_MSC_VER) || defined(__INTEL_COMPILER)
 
     return (uint8_t)_mm_popcnt_u64(mask);
@@ -121,8 +118,7 @@ int popcount(BITBOARD bitboard)
 #endif
 }
 
-Square poplsb(BITBOARD &bitboard)
-{
+Square poplsb(BITBOARD &bitboard) {
     Square s = lsb(bitboard);
     bitboard &= bitboard - 1; // compiler optimizes this to _blsr_u64
     return static_cast<Square>(s);
