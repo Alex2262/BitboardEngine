@@ -1,4 +1,3 @@
-#include <iostream>
 #include "position.h"
 
 int main() {

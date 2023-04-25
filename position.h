@@ -7,6 +7,7 @@
 
 #include <string>
 #include "constants.h"
+#include "types.h"
 
 class Position {
 
@@ -24,7 +25,7 @@ public:
 
     Color side = WHITE;
 
-    int castle_ability_bits = 0;
+    uint8_t castle_ability_bits = 0;
     Square ep_square = NO_SQUARE;
     HASH_TYPE hash_key = 0;
 
