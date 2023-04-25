@@ -16,11 +16,4 @@ std::vector<std::string> split(const std::string &s, char delim);
 
 Piece piece_to_num(char piece);
 
-Square lsb(BITBOARD bitboard);
-Square msb(BITBOARD bitboard);
-
-int popcount(BITBOARD bitboard);
-
-Square poplsb(BITBOARD bitboard);
-
 #endif //BITBOARDENGINE_USEFUL_H

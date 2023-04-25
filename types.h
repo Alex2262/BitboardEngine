@@ -12,7 +12,7 @@ constexpr Color operator~(Color c) {
 	return Color(c ^ BLACK);
 }
 
-constexpr uint32_t NPIECES = 15;
+constexpr uint32_t NPIECES = 13;
 enum Piece : uint32_t {
 	WHITE_PAWN,
 	WHITE_KNIGHT,
@@ -29,7 +29,7 @@ enum Piece : uint32_t {
 	EMPTY,
 };
 
-constexpr uint32_t NSQUARES = 15;
+constexpr uint32_t NSQUARES = 64;
 enum Square : uint32_t {
 	a1, b1, c1, d1, e1, f1, g1, h1,
 	a2, b2, c2, d2, e2, f2, g2, h2,
@@ -59,8 +59,37 @@ enum MoveType : uint8_t {
 	MOVE_TYPE_PROMOTION
 };
 
+const uint32_t NDIRS = 8;
+enum Direction : int32_t {
+	NORTH = 8, NORTH_EAST = 9, EAST = 1, SOUTH_EAST = -7,
+	SOUTH = -8, SOUTH_WEST = -9, WEST = -1, NORTH_WEST = 7,
+	NORTH_NORTH = 16, SOUTH_SOUTH = -16
+};
+
+const uint32_t NFILES = 8;
+using File = uint32_t;
+
+constexpr File AFILE = 0;
+constexpr File BFILE = 1;
+constexpr File CFILE = 2;
+constexpr File DFILE = 3;
+constexpr File EFILE = 4;
+constexpr File FFILE = 5;
+constexpr File GFILE = 6;
+constexpr File HFILE = 7;
+
+const uint32_t NRANKS = 8;
+using Rank = uint32_t;
+
+constexpr Rank RANK1 = 0;
+constexpr Rank RANK2 = 1;
+constexpr Rank RANK3 = 2;
+constexpr Rank RANK4 = 3;
+constexpr Rank RANK5 = 4;
+constexpr Rank RANK6 = 5;
+constexpr Rank RANK7 = 6;
+constexpr Rank RANK8 = 7;
 
 using PLY_TYPE = uint32_t;
 using HASH_TYPE = uint64_t;
-using BITBOARD = uint64_t;
 #endif // TYPES_H
