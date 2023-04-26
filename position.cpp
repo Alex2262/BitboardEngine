@@ -4,10 +4,10 @@
 
 #include <stdexcept>
 #include <iostream>
-#include <cassert>
 #include <bitset>
 #include "position.h"
 #include "useful.h"
+#include "bitboard.h"
 
 BITBOARD Position::get_pieces(Piece piece) {
     return pieces[piece];
@@ -117,20 +117,7 @@ void Position::set_fen(const std::string& fen_string) {
     }
 }
 
-void Position::print_bitboard(BITBOARD bitboard)
-{
-    std::bitset<64> b(bitboard);
-    std::string str_bitset = b.to_string();
-    for (int i = 0; i < 64; i += 8)
-    {
-        std::string x = str_bitset.substr(i, 8);
-        reverse(x.begin(), x.end());
-        std::cout << x << std::endl;
-    }
-    std::cout << '\n' << std::endl;
-}
-
-void Position::print_board() {
+std::ostream& operator<< (std::ostream& os, const Position& p) {
     std::string new_board;
 
     auto pos = static_cast<Square>(56);
@@ -140,7 +127,7 @@ void Position::print_board() {
             pos = static_cast<Square>(pos - 16);
         }
 
-        Piece piece = board[pos];
+        Piece piece = p.board[pos];
         pos = static_cast<Square>(pos + 1);
 
         if (piece == EMPTY) {
@@ -155,12 +142,13 @@ void Position::print_board() {
 
     }
 
-    std::cout << new_board << std::endl << std::endl;
-    std::cout << "side: " << side << " ep: " << ep_square << " castle: " << castle_ability_bits
-              << " hash: " << hash_key << std::endl << std::endl;
+    os << new_board << std::endl << std::endl;
+    os << "side: " << p.side << " ep: " << p.ep_square << " castle: " << p.castle_ability_bits
+              << " hash: " << p.hash_key << std::endl << std::endl;
 
     for (int piece = WHITE_PAWN; piece < EMPTY; piece++) {
-        std::cout << "Piece: " << piece << " bitboard: \n";
-        print_bitboard(pieces[piece]);
+        os << "Piece: " << piece << " bitboard: \n";
+        print_bitboard(p.pieces[piece]);
     }
+	return os;
 }

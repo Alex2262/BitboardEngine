@@ -8,6 +8,7 @@
 #include <string>
 #include "constants.h"
 #include "types.h"
+#include "bitboard.h"
 
 class Position {
 
@@ -48,8 +49,7 @@ public:
 
     void set_fen(const std::string& fen);
 
-    static void print_bitboard(BITBOARD bitboard);
-    void print_board();
+	friend std::ostream& operator<<(std::ostream& os, const Position& p);
 
 };
 
