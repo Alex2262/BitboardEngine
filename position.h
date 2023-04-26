@@ -33,8 +33,8 @@ public:
     BITBOARD get_pieces(Piece piece);
     BITBOARD get_pieces(PieceType piece, Color color);
 
-    BITBOARD get_our_pieces(Color color);
-    BITBOARD get_opp_pieces(Color color);
+    BITBOARD get_our_pieces();
+    BITBOARD get_opp_pieces();
 
     BITBOARD get_all_pieces();
 
@@ -50,6 +50,18 @@ public:
     void set_fen(const std::string& fen);
 
 	friend std::ostream& operator<<(std::ostream& os, const Position& p);
+
+    BITBOARD get_knight_attacks(Square square);
+    BITBOARD get_knight_moves(Square square);
+
+    BITBOARD get_king_attacks(Square square);
+    BITBOARD get_king_moves(Square square);
+
+    template<Color color, PieceType piece>  BITBOARD get_piece_attacks(Square square);
+    template<Color color, PieceType piecee>  BITBOARD get_piece_moves(Square square);
+
+    template<Color color> BITBOARD get_pseudo_legal_attacks();
+    template<Color color> BITBOARD get_pseudo_legal_moves();
 
 };
 

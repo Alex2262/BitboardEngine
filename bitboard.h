@@ -19,7 +19,7 @@ void print_bitboard(BITBOARD bitboard);
 [[nodiscard]] Square msb(BITBOARD bitboard);
 
 [[nodiscard]] uint32_t popcount(BITBOARD bitboard);
-[[nodiscard]] Square poplsb(BITBOARD bitboard);
+[[nodiscard]] Square poplsb(BITBOARD& bitboard);
 
 template<Direction D> [[nodiscard]] BITBOARD shift(BITBOARD b);
 

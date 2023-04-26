@@ -118,7 +118,7 @@ Square msb(U64 b)
 #endif
 }
 
-[[nodiscard]] Square poplsb(BITBOARD &bitboard) {
+[[nodiscard]] Square poplsb(BITBOARD& bitboard) {
 	Square s = lsb(bitboard);
 	bitboard &= bitboard - 1; // compiler optimizes this to _blsr_u64
 	return static_cast<Square>(s);

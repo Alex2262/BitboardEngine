@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.21)
 project(BitboardEngine)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(BitboardEngine main.cpp position.cpp position.h constants.h useful.cpp useful.h types.cpp types.h bitboard.cpp bitboard.h)
+add_executable(BitboardEngine main.cpp position.cpp position.h constants.h useful.cpp useful.h types.cpp types.h bitboard.cpp bitboard.h tables.h)

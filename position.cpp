@@ -8,6 +8,7 @@
 #include "position.h"
 #include "useful.h"
 #include "bitboard.h"
+#include "tables.h"
 
 BITBOARD Position::get_pieces(Piece piece) {
     return pieces[piece];
@@ -17,17 +18,26 @@ BITBOARD Position::get_pieces(PieceType piece, Color color) {
     return pieces[piece + color * 6];
 }
 
-BITBOARD Position::get_our_pieces(Color color) {
-    return get_pieces(PAWN, color) | get_pieces(KNIGHT, color) | get_pieces(BISHOP, color) |
-           get_pieces(ROOK, color) | get_pieces(QUEEN, color) | get_pieces(KING, color);
+BITBOARD Position::get_our_pieces() {
+    return get_pieces(PAWN, side) |
+           get_pieces(KNIGHT, side) |
+           get_pieces(BISHOP, side) |
+           get_pieces(ROOK, side) |
+           get_pieces(QUEEN, side) |
+           get_pieces(KING, side);
 }
 
-BITBOARD Position::get_opp_pieces(Color color) {
-    return get_our_pieces(static_cast<Color>(~color));
+BITBOARD Position::get_opp_pieces() {
+    return get_pieces(PAWN, static_cast<Color>(~side)) |
+           get_pieces(KNIGHT, static_cast<Color>(~side)) |
+           get_pieces(BISHOP, static_cast<Color>(~side)) |
+           get_pieces(ROOK, static_cast<Color>(~side)) |
+           get_pieces(QUEEN, static_cast<Color>(~side)) |
+           get_pieces(KING, static_cast<Color>(~side));
 }
 
 BITBOARD Position::get_all_pieces() {
-    return get_our_pieces(WHITE) | get_our_pieces(BLACK);
+    return get_our_pieces() | get_opp_pieces();
 }
 
 BITBOARD Position::get_empty_squares() {
@@ -151,4 +161,84 @@ std::ostream& operator<< (std::ostream& os, const Position& p) {
         print_bitboard(p.pieces[piece]);
     }
 	return os;
+}
+
+BITBOARD Position::get_knight_attacks(Square square) {
+    return get_opp_pieces() & KNIGHT_ATTACKS[square];
+}
+
+BITBOARD Position::get_knight_moves(Square square) {
+    return get_knight_attacks(square) | (get_empty_squares() & KNIGHT_ATTACKS[square]);
+}
+
+BITBOARD Position::get_king_attacks(Square square) {
+    return get_opp_pieces() & KING_ATTACKS[square];
+}
+
+BITBOARD Position::get_king_moves(Square square) {
+    return get_king_attacks(square) | (get_empty_squares() & KING_ATTACKS[square]);
+}
+
+template<Color color, PieceType piece>
+BITBOARD Position::get_piece_attacks(Square square) {
+    if constexpr (piece == PAWN) {
+
+    } else if constexpr (piece == KNIGHT) {
+        return get_knight_attacks(square);
+    } else if constexpr (piece == BISHOP) {
+
+    } else if constexpr (piece == ROOK) {
+
+    } else if constexpr (piece == QUEEN) {
+
+    } else if constexpr (piece == KING) {
+        return get_king_attacks(square);
+    }
+}
+
+template<Color color, PieceType piece>
+BITBOARD Position::get_piece_moves(Square square) {
+    if constexpr (piece == PAWN) {
+
+    } else if constexpr (piece == KNIGHT) {
+        return get_knight_moves(square);
+    } else if constexpr (piece == BISHOP) {
+
+    } else if constexpr (piece == ROOK) {
+
+    } else if constexpr (piece == QUEEN) {
+
+    } else if constexpr (piece == KING) {
+        return get_king_moves(square);
+    }
+}
+
+template<Color color>
+BITBOARD Position::get_pseudo_legal_attacks() {
+    BITBOARD moves{};
+
+    for (int piece = 0; piece < 6; piece++) {
+        BITBOARD piece_bitboard = pieces[piece + side * 6];
+        while (piece_bitboard) {
+            Square square = poplsb(piece_bitboard);
+            moves |= get_piece_attacks<color, piece>(square);
+        }
+    }
+
+    return moves;
+}
+
+template<Color color>
+BITBOARD Position::get_pseudo_legal_moves() {
+    BITBOARD moves{};
+
+    for (int piece = 0; piece < 6; piece++) {
+        BITBOARD piece_bitboard = pieces[piece + side * 6];
+        while (piece_bitboard) {
+            Square square = poplsb(piece_bitboard);
+            moves |= get_piece_moves<color, piece>(square);
+        }
+    }
+
+    return moves;
 }
