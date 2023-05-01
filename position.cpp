@@ -182,35 +182,37 @@ BITBOARD Position::get_king_moves(Square square) {
 template<Color color, PieceType piece>
 BITBOARD Position::get_piece_attacks(Square square) {
     if constexpr (piece == PAWN) {
-
+		return 0;
     } else if constexpr (piece == KNIGHT) {
         return get_knight_attacks(square);
     } else if constexpr (piece == BISHOP) {
-
+		return 0;
     } else if constexpr (piece == ROOK) {
-
+		return 0;
     } else if constexpr (piece == QUEEN) {
-
+		return 0;
     } else if constexpr (piece == KING) {
         return get_king_attacks(square);
     }
+	return 0;
 }
 
 template<Color color, PieceType piece>
 BITBOARD Position::get_piece_moves(Square square) {
     if constexpr (piece == PAWN) {
-
+		return 0;
     } else if constexpr (piece == KNIGHT) {
         return get_knight_moves(square);
     } else if constexpr (piece == BISHOP) {
-
+		return 0;
     } else if constexpr (piece == ROOK) {
-
+		return 0;
     } else if constexpr (piece == QUEEN) {
-
+		return 0;
     } else if constexpr (piece == KING) {
         return get_king_moves(square);
     }
+	return 0;
 }
 
 template<Color color>
