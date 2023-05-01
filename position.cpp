@@ -127,7 +127,7 @@ void Position::set_fen(const std::string& fen_string) {
     }
 }
 
-std::ostream& operator<< (std::ostream& os, const Position& p) {
+std::ostream& operator << (std::ostream& os, const Position& p) {
     std::string new_board;
 
     auto pos = static_cast<Square>(56);
@@ -177,68 +177,4 @@ BITBOARD Position::get_king_attacks(Square square) {
 
 BITBOARD Position::get_king_moves(Square square) {
     return get_king_attacks(square) | (get_empty_squares() & KING_ATTACKS[square]);
-}
-
-template<Color color, PieceType piece>
-BITBOARD Position::get_piece_attacks(Square square) {
-    if constexpr (piece == PAWN) {
-
-    } else if constexpr (piece == KNIGHT) {
-        return get_knight_attacks(square);
-    } else if constexpr (piece == BISHOP) {
-
-    } else if constexpr (piece == ROOK) {
-
-    } else if constexpr (piece == QUEEN) {
-
-    } else if constexpr (piece == KING) {
-        return get_king_attacks(square);
-    }
-}
-
-template<Color color, PieceType piece>
-BITBOARD Position::get_piece_moves(Square square) {
-    if constexpr (piece == PAWN) {
-
-    } else if constexpr (piece == KNIGHT) {
-        return get_knight_moves(square);
-    } else if constexpr (piece == BISHOP) {
-
-    } else if constexpr (piece == ROOK) {
-
-    } else if constexpr (piece == QUEEN) {
-
-    } else if constexpr (piece == KING) {
-        return get_king_moves(square);
-    }
-}
-
-template<Color color>
-BITBOARD Position::get_pseudo_legal_attacks() {
-    BITBOARD moves{};
-
-    for (int piece = 0; piece < 6; piece++) {
-        BITBOARD piece_bitboard = pieces[piece + side * 6];
-        while (piece_bitboard) {
-            Square square = poplsb(piece_bitboard);
-            moves |= get_piece_attacks<color, piece>(square);
-        }
-    }
-
-    return moves;
-}
-
-template<Color color>
-BITBOARD Position::get_pseudo_legal_moves() {
-    BITBOARD moves{};
-
-    for (int piece = 0; piece < 6; piece++) {
-        BITBOARD piece_bitboard = pieces[piece + side * 6];
-        while (piece_bitboard) {
-            Square square = poplsb(piece_bitboard);
-            moves |= get_piece_moves<color, piece>(square);
-        }
-    }
-
-    return moves;
 }
