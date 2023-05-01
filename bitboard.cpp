@@ -28,9 +28,10 @@ void print_bitboard(BITBOARD bitboard) {
 	for (int i = 0; i < 64; i += 8) {
 		std::string x = str_bitset.substr(i, 8);
 		reverse(x.begin(), x.end());
-		std::cout << x << std::endl;
+		for (auto c : x) std::cout << c << " ";
+		std::cout << std::endl;
 	}
-	std::cout << '\n' << std::endl;
+	std::cout << std::endl;
 }
 
 // Compiler specific functions, taken from Stockfish https://github.com/official-stockfish/Stockfish

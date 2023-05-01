@@ -9,6 +9,7 @@
 #include "constants.h"
 #include "types.h"
 #include "bitboard.h"
+#include "tables.h"
 
 class Position {
 
@@ -57,11 +58,68 @@ public:
     BITBOARD get_king_attacks(Square square);
     BITBOARD get_king_moves(Square square);
 
-    template<Color color, PieceType piece>  BITBOARD get_piece_attacks(Square square);
-    template<Color color, PieceType piecee>  BITBOARD get_piece_moves(Square square);
+    template<Color color, PieceType piece> BITBOARD get_piece_attacks(Square square) {
+		if constexpr (piece == PAWN) {
+			if constexpr (color == WHITE) return WHITE_PAWN_ATTACKS[square];
+			return BLACK_PAWN_ATTACKS[square];
+		} else if constexpr (piece == KNIGHT) {
+			return get_knight_attacks(square);
+		} else if constexpr (piece == BISHOP) {
+			return 0;
+		} else if constexpr (piece == ROOK) {
+			return 0;
+		} else if constexpr (piece == QUEEN) {
+			return 0;
+		} else if constexpr (piece == KING) {
+			return get_king_attacks(square);
+		}
+		return 0;
+	}
 
-    template<Color color> BITBOARD get_pseudo_legal_attacks();
-    template<Color color> BITBOARD get_pseudo_legal_moves();
+    template<Color color, PieceType piece>  BITBOARD get_piece_moves(Square square) {
+		if constexpr (piece == PAWN) {
+			return 0;
+		} else if constexpr (piece == KNIGHT) {
+			return get_knight_moves(square);
+		} else if constexpr (piece == BISHOP) {
+			return 0;
+		} else if constexpr (piece == ROOK) {
+			return 0;
+		} else if constexpr (piece == QUEEN) {
+			return 0;
+		} else if constexpr (piece == KING) {
+			return get_king_moves(square);
+		}
+		return 0;
+	}
+
+    template<Color color> BITBOARD get_pseudo_legal_attacks() {
+		BITBOARD moves{};
+
+		for (int piece = 0; piece < 6; piece++) {
+			BITBOARD piece_bitboard = pieces[piece + side * 6];
+			while (piece_bitboard) {
+				Square square = poplsb(piece_bitboard);
+				moves |= get_piece_attacks<color, piece>(square);
+			}
+		}
+
+		return moves;
+	}
+
+    template<Color color> BITBOARD get_pseudo_legal_moves() {
+		BITBOARD moves{};
+
+		for (int piece = 0; piece < 6; piece++) {
+			BITBOARD piece_bitboard = pieces[piece + side * 6];
+			while (piece_bitboard) {
+				Square square = poplsb(piece_bitboard);
+				moves |= get_piece_moves<color, piece>(square);
+			}
+		}
+
+		return moves;
+	}
 
 };
 
