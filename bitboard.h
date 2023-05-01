@@ -15,6 +15,10 @@ constexpr BITBOARD MASK_FILE[8] = {
 
 void print_bitboard(BITBOARD bitboard);
 
+[[nodiscard]] inline BITBOARD from_square(Square square) {
+	return 1ULL << square;
+}
+
 [[nodiscard]] Square lsb(BITBOARD bitboard);
 [[nodiscard]] Square msb(BITBOARD bitboard);
 
