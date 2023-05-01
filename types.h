@@ -51,14 +51,6 @@ enum PieceType : uint32_t {
 	KING
 };
 
-enum MoveType : uint8_t {
-	MOVE_TYPE_NORMAL,
-	MOVE_TYPE_EP,
-	MOVE_TYPE_CAPTURE,
-	MOVE_TYPE_CASTLE,
-	MOVE_TYPE_PROMOTION
-};
-
 const uint32_t NDIRS = 8;
 enum Direction : int32_t {
 	NORTH = 8, NORTH_EAST = 9, EAST = 1, SOUTH_EAST = -7,

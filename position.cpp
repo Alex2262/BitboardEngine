@@ -127,7 +127,7 @@ void Position::set_fen(const std::string& fen_string) {
     }
 }
 
-std::ostream& operator<< (std::ostream& os, const Position& p) {
+std::ostream& operator << (std::ostream& os, const Position& p) {
     std::string new_board;
 
     auto pos = static_cast<Square>(56);
